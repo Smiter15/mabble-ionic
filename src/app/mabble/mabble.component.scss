@@ -1,0 +1,156 @@
+@import '../../styles/variables';
+
+.mabble {
+    h1 {
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+    small {
+        position: relative;
+        top: -8px;
+    }
+    img {
+        max-width: 45px;
+        padding-top: 8px;
+    }
+}
+
+.logout {
+    i {
+        position: relative;
+        top: 3px;
+        margin-right: 3px;
+    }
+    p {
+        text-decoration: underline;
+        margin: 0;
+    }
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+.game-section {
+    // iphone 5
+    height: 70vh;
+    // iphone 6/7/8
+    @media only screen and (min-device-width : 375px) and (max-device-width : 667px) and (orientation : portrait) {
+        height: 75vh;
+    }
+    // iphone x
+    @media only screen and (device-width : 375px) and (device-height : 812px) and (-webkit-device-pixel-ratio : 3) {
+        height: 80vh;
+    }
+    .players {
+        height: 17%;
+        .player {
+            padding-top: 5px;
+            img {
+                width: 35px;
+                height: 35px;
+            }
+            h4 {
+                margin-bottom: 0;
+            }
+            &.correct {
+                animation: correct-transition 0.5s linear;
+            }
+            &.wrong {
+                animation: wrong-transition 0.5s linear;
+            }
+            &.finished {
+                background-color: #ffff86;
+            }
+        }
+    }
+
+    .play-area {
+        height: 100%;
+        background: #ffffba;
+        .play-row {
+            height: 33.3333%;
+            text-align: center;
+            padding-top: 4%;
+            img {
+                width: 60%;
+            }
+        }
+    }
+
+    .play-buttons {
+        background: #535353;
+        .col-2 {
+            padding: 2px;
+            &:hover {
+                animation: button-transition 0.2s linear;
+            }
+        }
+        img {
+            width: 100%;
+        }
+    }
+
+    .fixed-bottom {
+        margin-left: auto;
+        margin-right: auto;
+        .col-2 {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            &:first-child {
+                border-left: none;
+            }
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+
+    .winner {
+        padding-top: 15px;
+        h2 {
+            margin: 0;
+        }
+        img {
+            max-width: 180px;
+            max-height: 180px;
+        }
+    }
+}
+
+@keyframes correct-transition {
+    0% {
+        background: #eaeaea;
+    }
+    50% {
+        background: #85ff85;
+    }
+    100% {
+        background: #eaeaea;
+    }
+}
+
+@keyframes wrong-transition {
+    0% {
+        background: #eaeaea;
+    }
+    50% {
+        background: #ff5555;
+    }
+    100% {
+        background: #eaeaea;
+    }
+}
+
+@keyframes button-transition {
+    0% {
+        background: #535353;
+    }
+    50% {
+        background: #eaeaea;
+    }
+    100% {
+        background: #535353;
+    }
+}

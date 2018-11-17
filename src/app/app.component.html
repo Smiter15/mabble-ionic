@@ -1,3 +1,78 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+<mat-sidenav-container class="all-wrap" fullscreen>
+    <!--
+    <mat-sidenav #sidenavLeft>
+        <mat-list>
+            <i class="material-icons" (click)="sidenavLeft.close()">close</i>
+            <mat-list-item class="mt-60" routerLink="/home" (click)="sidenavLeft.close()">
+                <i class="material-icons">home</i> Home
+            </mat-list-item>
+            <mat-list-item class="mt-30" routerLink="/mabble" (click)="sidenavLeft.close()">
+                <i class="material-icons">home</i> Mabble
+            </mat-list-item>
+            <mat-list-item class="mt-30 profile" [routerLink]="'/profile/' + appUser?.uid" (click)="sidenavLeft.close()">
+                <img [src]="appUser?.photoURL" />
+                <p><span>{{appUser?.displayName}}</span><br />
+                    Profile <i class="icon-chevron-right"></i></p>
+            </mat-list-item>
+            <mat-list-item class="sign-out" (click)="sidenavLeft.close(); auth.signOut()">
+                <i class="icon-sign-out"></i> Logout
+            </mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+    -->
+
+    <mat-sidenav #sidenavRight position="end" [autoFocus]="false">
+        <div class="row chat-title">
+            <div class="col-12">
+                <p class="float-left">Online users ({{onlineUserCount}})</p>
+                <i class="material-icons float-right" (click)="sidenavRight.close()">close</i>
+            </div>
+        </div>
+        <div class="row online-users">
+            <div class="col-12">
+                <div class="online-users-scroll">
+                    <ng-container *ngFor="let user of onlineUsers">
+                        <div class="online-user-container" [ngStyle]="user.inWaiting && {'background': '#b6ffae'}">
+                            <img class="rounded-circle" [src]="user.photoURL" [matMenuTriggerFor]="menu" />
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item [routerLink]="'/profile/' + user.uid" (click)="sidenavRight.close()">View profile</button>
+                                <button *ngIf="user.inWaiting" mat-menu-item (click)="sidenavRight.close(); joinGame(user.currentGameId)">Join game</button>
+                            </mat-menu>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <app-chat></app-chat>
+    </mat-sidenav>
+
+    <header role="banner">
+        <mat-toolbar class="mat-elevation-z6">
+            <div class="container mobile-p-0">
+                <!-- (click)="sidenavLeft.open()" -->
+                <button
+                    *ngIf="auth.currentUser | async"
+                    mat-icon-button
+                    type="button"
+                    title="Go home page"
+                    class="float-left"
+                    routerLink="/mabble">
+                    <i class="material-icons">home</i>
+                </button>
+                <button
+                    *ngIf="auth.currentUser | async"
+                    mat-icon-button
+                    (click)="sidenavRight.open()"
+                    type="button"
+                    title="Online users"
+                    class="float-right">
+                    <i class="material-icons">people</i>
+                </button>
+            </div>
+        </mat-toolbar>
+    </header>
+    <main>
+        <ngx-loading [show]="loading"></ngx-loading>
+        <router-outlet></router-outlet>
+    </main>
+</mat-sidenav-container>

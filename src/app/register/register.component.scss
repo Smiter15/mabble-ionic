@@ -1,0 +1,53 @@
+@import '../../styles/variables';
+
+.mat-card {
+    background: #fff;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    @media only screen and (max-width: 600px) {
+        width: 95%;
+        margin-top: 18%;
+    }
+}
+
+.register-container {
+
+    h2 {
+        color: $black;
+    }
+
+    p {
+        font-size: 22px;
+        margin-bottom: 30px;
+        color: white;
+        font-weight: 400;
+    }
+
+    form {
+        max-width: 500px;
+        margin: auto;
+        mat-form-field {
+            width: 100%;
+        }
+        button {
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    .btn-facebook {
+        background: #4267b2;
+        color: white;
+        height: 40px;
+        text-align: center;
+        max-width: 300px;
+        &:hover {
+            cursor: pointer;
+            background: #16377b;
+        }
+    }
+
+}

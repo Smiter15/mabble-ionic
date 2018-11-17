@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'variables';
+@import 'animations';
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.mat-list-item-content {
+    &:hover {
+        background: darkorange;
+        border-bottom-left-radius: 25px;
+        border-top-left-radius: 25px;
+        @include allTransition(500ms);
+    }
+}
+
+mat-list-item {
+    &.profile {
+        .mat-list-item-content {
+            height: 58px !important;
+        }
+    }
+}
+
+.mat-tab-label {
+    width: 99%;
+}
+
+.mat-menu-content {
+    button {
+        &:focus {
+            outline: 0;
+        }
+    }
+}
+
+/* Alert classes */
+.mat-snack-bar-container {
+    min-width: 1px !important;
+    &.notification {
+        button {
+            color: darkorange;
+        }
+    }
+}

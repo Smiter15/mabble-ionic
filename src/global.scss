@@ -9,3 +9,33 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+@import 'styles/variables';
+@import 'styles/animations';
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.mat-list-item-content {
+    &:hover {
+        background: darkorange;
+        border-bottom-left-radius: 25px;
+        border-top-left-radius: 25px;
+        @include allTransition(500ms);
+    }
+}
+
+mat-list-item {
+    &.profile {
+        .mat-list-item-content {
+            height: 58px !important;
+        }
+    }
+}

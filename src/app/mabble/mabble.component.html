@@ -1,0 +1,84 @@
+<section class="container">
+
+    <div class="row mabble">
+        <div class="col-9">
+            <h1>Mabble</h1>
+            <small *ngIf="gameId">{{gameId}}</small>
+        </div>
+        <div class="col-3" *ngIf="gameId === ''">
+            <img class="rounded-circle" [src]="currentUser?.photoURL" [routerLink]="'/profile/' + currentUser?.uid"  />
+        </div>
+    </div>
+
+    <div class="row logout" *ngIf="gameId === ''">
+        <div class="col-12">
+            <small (click)="auth.signOut()">
+                <i class="icon-sign-out float-left"></i>
+                <p class="float-left">Logout</p>
+            </small>
+        </div>
+    </div>
+
+    <mat-tab-group mat-align-tabs="center" *ngIf="gameId === ''" class="row">
+        <mat-tab label="Create">
+            <div class="col-sm-6 col-12">
+                <app-create></app-create>
+            </div>
+        </mat-tab>
+        <mat-tab label="Join">
+            <div class="col-sm-6 col-12">
+                <app-join></app-join>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
+    <section *ngIf="gameId !== ''" class="game-section">
+
+        <div class="players">
+            <div class="row">
+                <div *ngFor="let player of players" class="col text-center player" [ngClass]="game.players[player].playerClass">
+                    <img [src]="game?.players[player].photoURL" class="rounded-circle" />
+                    <h4>{{game?.players[player]?.score}}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="game?.noPlayers !== playersLength" class="row">
+            <div class="col-12">
+                <p>Waiting for players to join</p>
+                <h3>{{playersLength}} / {{game?.noPlayers}}</h3>
+            </div>
+        </div>
+
+        <div *ngIf="game?.started === true && game?.finished === false" style="height: 80%;">
+            <div class="row play-area">
+                <div class="col-6 play-row" *ngFor="let image of game?.deck6['card'+game?.playingCard]">
+                    <img [src]="'assets/icons/wildlife/png/' + image + '.png'" />
+                </div>
+            </div>
+
+            <div class="fixed-bottom container m-a play-buttons">
+                <div class="row">
+                    <div class="col-2 text-center" *ngFor="let image of game?.deck6['card'+playerCards[playerCard]]">
+                        <img [src]="'assets/icons/wildlife/png/' + image + '.png'" (click)="snap(image)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="game?.finished === true">
+            <div class="row winner">
+                <div class="col-12 text-center">
+                    <img [src]="game.winnerImageURL" class="rounded-circle" />
+                    <h2>{{game.winnerName}}<br />Wins !</h2>
+                    <button mat-raised-button color="primary" (click)="playAgainVote()" [disabled]="disableVoteButton">Play again?</button>
+                    <br /><br />
+                    <small>Votes {{votes}} / {{game.noPlayers}}</small>
+                    <app-play-again></app-play-again>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</section>

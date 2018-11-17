@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-2">
+        <div class="image-wrapper" [routerLink]="'/profile/' + message.sender.uid">
+            <img [src]="message.sender.photoURL" class="rounded-circle" />
+        </div>
+    </div>
+    <div class="col-10">
+        <div class="bubble d-flex flex-column">
+            <div class="d-flex align-items-baseline">
+                <span class="name">{{message.sender.displayName}}</span>
+                <!--<span class="timestamp">{{message.createdAt}}</span>-->
+            </div>
+            <div class="message">
+                <p>{{message.message}}</p>
+            </div>
+        </div>
+    </div>
+</div>
