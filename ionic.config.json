@@ -1,6 +1,8 @@
 {
   "name": "mabble-test",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "pro_id": "a50185b9"
 }
