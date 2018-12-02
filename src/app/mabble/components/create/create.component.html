@@ -1,33 +1,27 @@
 <form [formGroup]="createGameForm">
-    <div class="row">
-        <div class="col-12">
-            <mat-form-field appearance="outline">
-                <mat-label>Number of players</mat-label>
-                <mat-select placeholder="Number of players" formControlName="noPlayers">
-                    <mat-option *ngFor="let players of noPlayersList" [value]="players.value">
-                        {{players.viewValue}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+    <div class="float-left">
+        <mat-form-field appearance="outline" style="width: 80px;">
+            <mat-label>Players</mat-label>
+            <mat-select formControlName="noPlayers">
+                <mat-option *ngFor="let players of noPlayersList" [value]="players.value">
+                    {{players.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <mat-form-field appearance="outline">
-                <mat-label>Number of images</mat-label>
-                <mat-select placeholder="Number of images" formControlName="noImages">
-                    <mat-option value="6">
-                        6
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+    <div class="float-left">
+        <mat-form-field appearance="outline" style="width: 80px;">
+            <mat-label>Images</mat-label>
+            <mat-select formControlName="noImages">
+                <mat-option value="6">
+                    6
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <mat-card-actions class="text-center">
-                <button mat-raised-button [disabled]="createGameForm.status !== 'VALID'" (click)="createGame()" color="primary">Create game</button>
-            </mat-card-actions>
-        </div>
+    <div class="float-right">
+        <mat-card-actions class="text-center">
+            <button mat-raised-button [disabled]="createGameForm.status !== 'VALID'" (click)="createGame()" color="primary">Create<br />Game</button>
+        </mat-card-actions>
     </div>
 </form>

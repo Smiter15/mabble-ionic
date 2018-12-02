@@ -14,6 +14,13 @@
             <button mat-raised-button color="primary" [routerLink]="'/profile/' + currentUser?.uid + '/edit'">Edit Profile</button>
         </div>
     </div>
+    <div class="row logout" *ngIf="user?.uid === currentUser?.uid">
+        <div class="col-12">
+            <small (click)="auth.signOut()">
+                <p>Logout</p>
+            </small>
+        </div>
+    </div>
 </div>
 
 <ng-template #noPhoto>

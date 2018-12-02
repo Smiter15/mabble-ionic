@@ -78,13 +78,13 @@ export class CreateComponent implements OnInit, OnDestroy {
             playAgainVotes: 0,
             nextGameURL: null
         };
-        this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).add(game).then(game => {
+        this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).add(game).then(newGame => {
             // add user to game
-            console.log('created game ', game);
+            console.log('created game ', newGame);
             console.log('added player through create', player);
             this.loadingService.setLoading(false);
             // send user to game
-            this.router.navigateByUrl(`mabble/${game.id}`);
+            this.router.navigateByUrl(`mabble/${newGame.id}`);
         });
     }
 

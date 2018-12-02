@@ -1,5 +1,13 @@
 @import '../../styles/variables';
 
+.logout {
+    margin-top: 25px;
+    small {
+        text-align: center;
+        text-decoration: underline;
+    }
+}
+
 .no-photo {
     height: 150px;
     width: 150px;

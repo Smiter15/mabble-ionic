@@ -1,4 +1,35 @@
-form {
-	padding-top: 20px;
-	text-align: center;
+.games-container {
+    margin-left: 5px;
+    padding: 3px;
+    position: relative;
+    display: inline-block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    img {
+        max-width: 50px;
+        margin-left: -4px;
+    }
+    p {
+        font-size: 12px;
+        text-align: center;
+    }
+}
+
+.in-waiting {
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes color {
+    0% {
+        background-color: #b6ffae;
+    }
+    50% {
+        background-color: #44d144;
+    }
+    100% {
+        background-color: #b6ffae;
+    }
 }

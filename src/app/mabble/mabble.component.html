@@ -10,27 +10,21 @@
         </div>
     </div>
 
-    <div class="row logout" *ngIf="gameId === ''">
-        <div class="col-12">
-            <small (click)="auth.signOut()">
-                <i class="icon-sign-out float-left"></i>
-                <p class="float-left">Logout</p>
-            </small>
-        </div>
-    </div>
-
-    <mat-tab-group mat-align-tabs="center" *ngIf="gameId === ''" class="row">
-        <mat-tab label="Create">
-            <div class="col-sm-6 col-12">
+    <ng-container *ngIf="gameId === ''">
+        <div class="row create">
+            <div class="col-12">
                 <app-create></app-create>
             </div>
-        </mat-tab>
-        <mat-tab label="Join">
-            <div class="col-sm-6 col-12">
-                <app-join></app-join>
+        </div>
+        <div class="row join">
+            <div class="col-12">
+                <p>Join a game !</p>
             </div>
-        </mat-tab>
-    </mat-tab-group>
+        </div>
+        <div class="row games">
+            <app-join></app-join>
+        </div>
+    </ng-container>
 
     <section *ngIf="gameId !== ''" class="game-section">
 

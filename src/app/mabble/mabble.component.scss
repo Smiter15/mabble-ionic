@@ -15,20 +15,26 @@
     }
 }
 
-.logout {
-    i {
-        position: relative;
-        top: 3px;
-        margin-right: 3px;
-    }
+h2 {
+    margin-top: 30px;
+}
+
+.create {
+    margin-top: 25px;
+}
+
+.join {
     p {
-        text-decoration: underline;
-        margin: 0;
+        margin-bottom: 15px;
+        margin-top: -10px;
+        color: grey;
+        font-weight: 300;
+        border-bottom: 1px solid lightgrey;
     }
 }
 
-h2 {
-    margin-top: 30px;
+.games {
+    padding: 0 15px;
 }
 
 .game-section {

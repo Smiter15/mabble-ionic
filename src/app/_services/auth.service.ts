@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 import { auth } from 'firebase';
-import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/firestore";
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
-import * as firebase from "firebase";
+import * as firebase from 'firebase';
 
-import { Observable, of } from "rxjs";
+import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { fromPromise } from "rxjs/internal/observable/fromPromise";
+import { fromPromise } from 'rxjs/internal/observable/fromPromise';
 
-import { AlertService } from "./alert.service";
+import { AlertService } from './alert.service';
 
-import { User } from "../_interfaces/user.interface";
+import { User } from '../_interfaces/user.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +27,7 @@ export class AuthService {
         private afAuth: AngularFireAuth,
         private afs: AngularFirestore,
         private alertService: AlertService,
-        private router: Router){
+        private router: Router) {
 
         this.currentUser = this.afAuth.authState.pipe(
             switchMap(user => {
@@ -86,7 +86,7 @@ export class AuthService {
                         uid: credential.user.uid,
                         email: credential.user.email,
                         displayName: displayName,
-                        photoURL: credential.user.photoURL || 'https://goo.gl/Fz9nrQ'
+                        photoURL: credential.user.photoURL || `https://api.adorable.io/avatars/150/${credential.user.uid}@mabble.io.png`
                     };
 
                     userRef.set(data);
@@ -106,7 +106,7 @@ export class AuthService {
                 .catch(error => {
                     return this.handleError(error);
                 })
-        )
+        );
     }
 
     // Sends email allowing user to reset password
@@ -135,7 +135,7 @@ export class AuthService {
 
         firebase.database().ref('.info/connected').on('value', function(snapshot) {
 
-            if (snapshot.val() == false) {
+            if (snapshot.val() === false) {
                 userRef.set({
                     state: 'offline',
                     lastChanged: firebase.firestore.FieldValue.serverTimestamp(),

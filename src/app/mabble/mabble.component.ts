@@ -12,6 +12,7 @@ import { AlertService } from '../_services/alert.service';
 import { PlayAgainComponent } from './components/play-again/play-again.component';
 
 import { Howl, Howler } from 'howler';
+import * as firebase from 'firebase';
 
 @Component({
     selector: 'app-mabble',
@@ -148,11 +149,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
             // player runs out of cards
             if (this.playerCard === this.playerCards.length) {
                 playerClass = 'finished';
-                this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
-                    winnerName: this.currentUser.displayName,
-                    winnerImageURL: this.currentUser.photoURL,
-                    finished: true
-                });
+                this.gameFinished();
             }
         } else {
             playerClass = 'wrong';
@@ -194,6 +191,21 @@ export class MabbleComponent implements OnInit, OnDestroy {
                 this.playAgainComponent.create(this.game, this.gameId);
             }
         });
+    }
+
+    private gameFinished() {
+        console.log('finish');
+        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
+            winnerName: this.currentUser.displayName,
+            winnerImageURL: this.currentUser.photoURL,
+            finished: true
+        });
+        // TODO add win to count
+        for (let i = 0; i < this.playersLength; i++) {
+            this.afs.doc(`users/${this.players[i]}`).set({
+                currentGameId: ''
+            }, {merge: true});
+        }
     }
 
     shuffle(array) {

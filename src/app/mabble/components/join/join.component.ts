@@ -17,12 +17,15 @@ import { LoadingService } from '../../../_services/loading.service';
 })
 export class JoinComponent implements OnInit, OnDestroy {
 
+    private db = firebase.firestore();
+
     private subscriptions: Subscription[] = [];
+
+    public onlineUsers: any;
+    public onlineUserCount: number;
 
     public currentUser: any = null;
     public joinGameForm: FormGroup;
-
-    private db = firebase.firestore();
 
     constructor(private fb: FormBuilder,
                 public auth: AuthService,
@@ -40,12 +43,59 @@ export class JoinComponent implements OnInit, OnDestroy {
         this.joinGameForm = this.fb.group({
             gameId: ['', [Validators.required]]
         });
+
+        this.getOnlineUsers();
     }
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
+    getOnlineUsers() {
+        this.db.collection('users').where('state', '==', 'online').onSnapshot(onlineUsers => {
+
+            const tempOnlineUsers = [];
+            onlineUsers.forEach(function(onlineUser) {
+                tempOnlineUsers.push(onlineUser.data());
+            });
+
+            this.onlineUsers = tempOnlineUsers;
+            this.onlineUserCount = onlineUsers.size;
+        });
+    }
+
+    joinGame(gameId) {
+        console.log('join game id', gameId);
+        this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).doc(gameId).get().then(game => {
+            this.loadingService.setLoading(true);
+            console.log('game', game.data());
+            const players = game.data().players;
+            let player = {};
+            player = {
+                score: 0,
+                displayName: this.currentUser.displayName,
+                photoURL: this.currentUser.photoURL,
+                uid: this.currentUser.uid,
+                playerClass: null,
+                imageClass: null
+            };
+            players[this.currentUser.uid] = player;
+            this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).doc(gameId).update({
+                players: players
+            }).then(() => {
+                this.db.doc(`users/${this.currentUser.uid}`).set({
+                    inWaiting: false,
+                    currentGameId: gameId
+                }, {merge: true}).then(() => {
+                    console.log('added player through join', player);
+                    this.loadingService.setLoading(false);
+                    // send user to game
+                    this.router.navigateByUrl('mabble/' + gameId);
+                });
+            });
+        });
+    }
+/*
     joinGame() {
         this.db.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).doc(this.joinGameForm.value.gameId).get().then(game => {
             if (game.exists) {
@@ -82,5 +132,6 @@ export class JoinComponent implements OnInit, OnDestroy {
             }
         });
     }
+    */
 
 }
