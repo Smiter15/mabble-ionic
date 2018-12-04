@@ -1,10 +1,42 @@
-<ng-container *ngFor="let user of onlineUsers">
-    <div class="games-container" [ngClass]="{'in-waiting': user.inWaiting}">
-        &nbsp;<img class="rounded-circle" [src]="user.photoURL" [matMenuTriggerFor]="menu" />
-        <p>{{user.displayName}}</p>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item [routerLink]="'/profile/' + user.uid">View profile</button>
-            <button *ngIf="user.inWaiting" mat-menu-item (click)="joinGame(user.currentGameId)">Join game</button>
-        </mat-menu>
+<div class="row join">
+    <div class="col-12">
+        <p class="float-left">Friends</p>
+        <p class="float-right find">Find friends
+            <i class="material-icons">search</i>
+        </p>
     </div>
-</ng-container>
+</div>
+<div class="row games">
+    <ng-container *ngFor="let friend of friends">
+        <div class="games-container" [ngClass]="{'in-waiting': friend.inWaiting}">
+            &nbsp;<img class="rounded-circle" [ngClass]="{'offline': friend.state === 'offline'}" [src]="friend.photoURL" [matMenuTriggerFor]="menu" />
+            <p>{{friend.displayName}}</p>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="'/profile/' + friend.uid">View profile</button>
+                <button mat-menu-item (click)="removeFriend(friend.uid)">Remove friend</button>
+                <button *ngIf="friend.inWaiting" mat-menu-item (click)="joinGame(friend.currentGameId)">Join game</button>
+            </mat-menu>
+        </div>
+    </ng-container>
+</div>
+
+<div class="row join" style="margin-top: 15px;">
+    <div class="col-12">
+        <p>Global</p>
+    </div>
+</div>
+<div *ngIf="friends" class="row games">
+    <ng-container *ngFor="let user of onlineUsers">
+        <ng-container *ngIf="!checkFriend(user.uid)">
+            <div *ngIf="user.uid !== currentUser?.uid" class="games-container" [ngClass]="{'in-waiting': user.inWaiting}">
+                &nbsp;<img class="rounded-circle" [src]="user.photoURL" [matMenuTriggerFor]="menu" />
+                <p>{{user.displayName}}</p>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item [routerLink]="'/profile/' + user.uid">View profile</button>
+                    <button mat-menu-item (click)="addFriend(user.uid)">Add friend</button>
+                    <button *ngIf="user.inWaiting" mat-menu-item (click)="joinGame(user.currentGameId)">Join game</button>
+                </mat-menu>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>

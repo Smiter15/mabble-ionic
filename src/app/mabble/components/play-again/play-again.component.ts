@@ -28,7 +28,7 @@ export class PlayAgainComponent implements OnInit {
             previousGame.players[key].playerClass = null;
         });
         this.loadingService.setLoading(true);
-        const game = {
+        const newGame = {
             deck6: deck6.deck6, // dynamic in future
             // theme: 'wildlife' // TODO
             createdAt: new Date(),
@@ -43,14 +43,13 @@ export class PlayAgainComponent implements OnInit {
             playAgainVotes: 0,
             nextGameURL: null
         };
-        this.afs.collection(`mabble/ZNtkxBjM9akNP7JSgPro/games`).add(game).then(game => {
+        this.afs.collection(`games`).add(newGame).then(game => {
             // add user to game
             console.log('created game from play again', game);
-            this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${previousGameId}`).update({
+            this.afs.doc(`games/${previousGameId}`).update({
                 nextGameURL: `mabble/${game.id}`
             }).then(() => {
                 this.loadingService.setLoading(false);
-                // send user to game
                 this.router.navigateByUrl(`mabble/${game.id}`);
             });
         });

@@ -16,14 +16,7 @@
                 <app-create></app-create>
             </div>
         </div>
-        <div class="row join">
-            <div class="col-12">
-                <p>Join a game !</p>
-            </div>
-        </div>
-        <div class="row games">
-            <app-join></app-join>
-        </div>
+        <app-join></app-join>
     </ng-container>
 
     <section *ngIf="gameId !== ''" class="game-section">
@@ -65,9 +58,9 @@
                 <div class="col-12 text-center">
                     <img [src]="game.winnerImageURL" class="rounded-circle" />
                     <h2>{{game.winnerName}}<br />Wins !</h2>
-                    <button mat-raised-button color="primary" (click)="playAgainVote()" [disabled]="disableVoteButton">Play again?</button>
-                    <br /><br />
-                    <small>Votes {{votes}} / {{game.noPlayers}}</small>
+                    <button mat-raised-button color="primary" (click)="playAgainVote()" [disabled]="disableVoteButton">Play again?</button><br />
+                    <small>Votes {{votes}} / {{game.noPlayers}}</small><br />
+                    <small class="leave" (click)="leave()">Leave</small>
                     <app-play-again></app-play-again>
                 </div>
             </div>

@@ -1,10 +1,13 @@
 <mat-sidenav-container class="all-wrap" fullscreen>
 
-    <div *ngIf="currentUser?.currentGameId === ''" class="box throw">
-        <div class="front rotate-center">
-            <div class="text">
-                <img [src]="'../assets/icons/wildlife/png/' + randomIcon + '.png'" />
-            </div>
+    <div *ngIf="currentUser?.currentGameId === ''" class="random-icon throw-1">
+        <div class="rotate-center">
+            <img [src]="'../assets/icons/wildlife/png/' + randomIcon1 + '.png'" />
+        </div>
+    </div>
+    <div *ngIf="currentUser?.currentGameId === ''" class="random-icon throw-2">
+        <div class="rotate-center">
+            <img [src]="'../assets/icons/wildlife/png/' + randomIcon2 + '.png'" />
         </div>
     </div>
 

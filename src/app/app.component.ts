@@ -18,7 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     public currentUser: any | null;
 
-    public randomIcon = 0;
+    public randomIcon1 = 0;
+    public randomIcon2 = 10;
 
     constructor(public auth: AuthService,
                 private loadingService: LoadingService) {
@@ -45,7 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     randomInt(min, max) {
-        this.randomIcon = Math.floor(Math.random() * (max - min + 1) + min);
+        this.randomIcon1 = Math.floor(Math.random() * (max - min + 1) + min);
+        this.randomIcon2 = Math.floor(Math.random() * (max - min + 1) + min);
     }
 
 }

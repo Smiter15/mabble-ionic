@@ -40,6 +40,9 @@ import { environment } from '../environments/environment';
 
 import { NgxLoadingModule } from 'ngx-loading';
 
+// Cordova plugins
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -54,7 +57,8 @@ import { NgxLoadingModule } from 'ngx-loading';
         AngularFireMessagingModule,
         AppRoutingModule,
         NgxLoadingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        IonicStorageModule.forRoot()
     ],
     declarations: [
         AppComponent,

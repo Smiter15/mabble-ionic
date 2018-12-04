@@ -12,7 +12,6 @@ import { AlertService } from '../_services/alert.service';
 import { PlayAgainComponent } from './components/play-again/play-again.component';
 
 import { Howl, Howler } from 'howler';
-import * as firebase from 'firebase';
 
 @Component({
     selector: 'app-mabble',
@@ -72,7 +71,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
         // reset stuff for play again feature
         this.score = 0; this.playerCard = 0; this.votes = 0; this.playersLength = 0; this.disableVoteButton = false;
         this.subscriptions.push(
-            this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).valueChanges().subscribe(game => {
+            this.afs.doc(`games/${this.gameId}`).valueChanges().subscribe(game => {
                 this.game = game;
                 this.players = Object.keys(this.game.players);
                 this.playersLength = Object.keys(this.game.players).length;
@@ -93,7 +92,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
             const random = Math.floor(Math.random() * (31 - 1 + 1)) + 1;
             // only host push to AFS for playing deck and handles random number
             if (this.game.creator === this.currentUser.uid) {
-                this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
+                this.afs.doc(`games/${this.gameId}`).update({
                     playingCard: random
                 });
             }
@@ -126,7 +125,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
     private startGame() {
         console.log('startGame');
         setTimeout(() => {
-            this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
+            this.afs.doc(`games/${this.gameId}`).update({
                 started: true
             });
         }, 250);
@@ -139,7 +138,7 @@ export class MabbleComponent implements OnInit, OnDestroy {
             this.score++;
             playerClass = 'correct';
             // add player's card to playing deck
-            this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
+            this.afs.doc(`games/${this.gameId}`).update({
                 playingCard: this.playerCards[this.playerCard]
             });
             // remove player's card from their deck
@@ -158,10 +157,10 @@ export class MabbleComponent implements OnInit, OnDestroy {
         const playerId = {};
         playerId[`players.${this.currentUser.uid}.score`] = this.score;
         playerId[`players.${this.currentUser.uid}.playerClass`] = playerClass;
-        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update(playerId).then(() => {
+        this.afs.doc(`games/${this.gameId}`).update(playerId).then(() => {
             if (playerClass !== 'finished') {
                 playerId[`players.${this.currentUser.uid}.playerClass`] = null;
-                this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update(playerId);
+                this.afs.doc(`games/${this.gameId}`).update(playerId);
             }
         });
     }
@@ -179,23 +178,9 @@ export class MabbleComponent implements OnInit, OnDestroy {
         }
     }
 
-    public playAgainVote() {
-        this.votes++;
-        this.disableVoteButton = true;
-        // add vote
-        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
-            playAgainVotes: this.votes
-        }).then(() => {
-            // this will only work for last player to vote
-            if (this.votes === this.game.noPlayers) {
-                this.playAgainComponent.create(this.game, this.gameId);
-            }
-        });
-    }
-
     private gameFinished() {
         console.log('finish');
-        this.afs.doc(`mabble/ZNtkxBjM9akNP7JSgPro/games/${this.gameId}`).update({
+        this.afs.doc(`games/${this.gameId}`).update({
             winnerName: this.currentUser.displayName,
             winnerImageURL: this.currentUser.photoURL,
             finished: true
@@ -206,6 +191,26 @@ export class MabbleComponent implements OnInit, OnDestroy {
                 currentGameId: ''
             }, {merge: true});
         }
+    }
+
+    public playAgainVote() {
+        this.votes++;
+        this.disableVoteButton = true;
+        // add vote
+        this.afs.doc(`games/${this.gameId}`).update({
+            playAgainVotes: this.votes
+        }).then(() => {
+            if (this.votes === this.game.noPlayers) {
+                this.playAgainComponent.create(this.game, this.gameId);
+            }
+        });
+    }
+
+    public leave() {
+        console.log('leave');
+        this.router.navigateByUrl('mabble');
+        // hide play again
+        // notify game player left
     }
 
     shuffle(array) {

@@ -9,6 +9,8 @@ import { AuthService } from '../_services/auth.service';
 import { AlertService } from '../_services/alert.service';
 import { LoadingService } from '../_services/loading.service';
 
+import { Storage } from '@ionic/storage';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -26,7 +28,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                 private alertService: AlertService,
                 private loadingService: LoadingService,
                 private router: Router,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private storage: Storage) {
         this.createForm();
     }
 
@@ -36,6 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.auth.currentUser.subscribe(user => {
                 if (!!user) {
+                    this.storage.set('uid', user.uid);
                     this.router.navigateByUrl('/mabble');
                 }
             })

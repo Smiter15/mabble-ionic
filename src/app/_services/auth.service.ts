@@ -15,6 +15,8 @@ import { AlertService } from './alert.service';
 
 import { User } from '../_interfaces/user.interface';
 
+import { Storage } from '@ionic/storage';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -27,7 +29,8 @@ export class AuthService {
         private afAuth: AngularFireAuth,
         private afs: AngularFirestore,
         private alertService: AlertService,
-        private router: Router) {
+        private router: Router,
+        private storage: Storage) {
 
         this.currentUser = this.afAuth.authState.pipe(
             switchMap(user => {
@@ -86,7 +89,8 @@ export class AuthService {
                         uid: credential.user.uid,
                         email: credential.user.email,
                         displayName: displayName,
-                        photoURL: credential.user.photoURL || `https://api.adorable.io/avatars/150/${credential.user.uid}@mabble.io.png`
+                        photoURL: credential.user.photoURL || `https://api.adorable.io/avatars/150/${credential.user.uid}@mabble.io.png`,
+                        friends: []
                     };
 
                     userRef.set(data);
@@ -126,9 +130,11 @@ export class AuthService {
     }
     */
     private updateUserData(user: User) {
+        console.log('logged in', user);
         const userRef: AngularFirestoreDocument = this.afs.doc(`users/${user.uid}`);
 
         userRef.set({
+            inGame: false,
             inWaiting: false,
             currentGameId: '',
         }, {merge: true});
@@ -192,6 +198,7 @@ export class AuthService {
         this.afAuth.auth.signOut().then(() => {
             this.router.navigate(['/']);
         });
+        this.storage.clear();
     }
 
     // If error, console log and notify user
